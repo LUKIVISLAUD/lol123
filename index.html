@@ -3173,7 +3173,7 @@
         window.replaceAccountLibraryState = (next) => {
             const source = next && typeof next === 'object' ? next : {};
             state = { ...source, toPlay: Array.isArray(source.toPlay) ? source.toPlay : [], playing: Array.isArray(source.playing) ? source.playing : [], completed: Array.isArray(source.completed) ? source.completed : [] };
-            triggerEntranceAnim = false;
+            triggerEntranceAnim = true;
             render();
         };
         window.readAccountLibraryState = () => JSON.parse(JSON.stringify(state));
