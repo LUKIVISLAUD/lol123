@@ -1180,7 +1180,7 @@
 
         /* Profil i menu konta */
         .profile-control { position:relative; flex:0 0 auto; }
-        .profile-toggle { width:3.05rem; height:3.05rem; min-width:3.05rem; padding:0 !important; border-radius:50%; overflow:hidden; display:grid; place-items:center; background:#0b0b10; border:2px solid rgba(161,161,170,.62); color:#85858e; box-shadow:inset 0 1px 0 rgba(255,255,255,.06); transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease; }
+        .profile-toggle { width:3.3rem; height:3.3rem; min-width:3.3rem; padding:0 !important; border-radius:50%; overflow:hidden; display:grid; place-items:center; background:#0b0b10; border:2px solid rgba(161,161,170,.62); color:#85858e; box-shadow:inset 0 1px 0 rgba(255,255,255,.06); transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease; }
         .profile-toggle:hover { transform:translateY(-1px); }
         .profile-toggle.is-authenticated { border-color:var(--accent); color:var(--accent); box-shadow:0 0 0 3px rgba(var(--accent-rgb),.12),0 0 20px rgba(var(--accent-rgb),.18); }
         .profile-toggle img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
@@ -1250,7 +1250,7 @@
             .tools-container { grid-area:tools; width:auto !important; justify-content:flex-end !important; flex-wrap:nowrap !important; gap:.45rem !important; }
             .theme-control { display:none !important; }
             .sort-control .sort-btn { width:auto; max-width:190px; }
-            .profile-toggle { width:2.85rem; height:2.85rem; min-width:2.85rem; }
+            .profile-toggle { width:3.08rem; height:3.08rem; min-width:3.08rem; }
             .main-content { padding-top:8.45rem !important; }
             #statsPanel { display:none !important; }
             .game-grid { grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:.68rem; margin-bottom:2.3rem; }
@@ -1267,11 +1267,24 @@
             .search-toggle { width:2.65rem; height:2.65rem; }
             .sort-control .sort-btn { width:2.78rem; max-width:2.78rem; min-width:2.78rem; height:2.78rem; padding:.5rem !important; gap:0; }
             .sort-control .sort-btn #sortName, .sort-control .sort-btn .sort-chevron { display:none; }
-            .profile-toggle { width:2.78rem; height:2.78rem; min-width:2.78rem; }
+            .profile-toggle { width:3.08rem; height:3.08rem; min-width:3.08rem; }
             .tools-container { gap:.38rem !important; }
             .main-content { padding-top:8.25rem !important; }
         }
         @media (prefers-reduced-motion:reduce) { #authLoading.visible,.auth-loading-spinner,.logo-text:hover { animation-duration:.01ms !important; } }
+        /* Ustawienia otwierają się pod przyciskiem w tej samej kolumnie menu profilu. */
+        .profile-control .settings-control { position:static !important; width:100% !important; min-width:0 !important; }
+        .profile-control .settings-btn { display:flex !important; width:100% !important; min-width:0 !important; min-height:2.7rem; }
+        .profile-control .settings-menu,
+        .profile-control .settings-menu.open {
+            position:static !important; inset:auto !important; float:none !important; transform:none !important;
+            display:block; width:100% !important; min-width:0 !important; max-width:none !important;
+            max-height:min(48vh,430px); overflow:auto; overflow-x:hidden; box-sizing:border-box;
+            margin:.38rem 0 0 !important; align-self:stretch; justify-self:stretch;
+        }
+        .profile-control .settings-menu { display:none; }
+        .profile-control .settings-menu.open { display:block; transform-origin:top center; }
+        .game-card.dragging, .game-card.drag-over { will-change:transform,opacity; }
     </style>
 </head>
 <body>
@@ -1476,9 +1489,9 @@
             <div class="stat-tile" id="playingStatTile"><span id="statPlayingCount" class="stat-number">0</span><span class="stat-label">Aktualnie gram</span></div>
             <div class="stat-tile"><span id="statCompletedCount" class="stat-number">0</span><span class="stat-label">Ukończone</span></div>
             <div class="stat-tile"><span id="statCompletion" class="stat-number">0%</span><span class="stat-label">Ukończenie</span></div>
+            <div class="stat-tile"><span id="statPC" class="stat-number">0</span><span class="stat-label">PC</span></div>
             <div class="stat-tile"><span id="statPS" class="stat-number">0</span><span class="stat-label">PlayStation</span></div>
             <div class="stat-tile"><span id="statXbox" class="stat-number">0</span><span class="stat-label">Xbox</span></div>
-            <div class="stat-tile"><span id="statPC" class="stat-number">0</span><span class="stat-label">PC</span></div>
             <div class="stat-tile"><span id="statNintendo" class="stat-number">0</span><span class="stat-label">Nintendo</span></div>
         </div>
         <div class="section-header">Twoja Kolejka</div>
@@ -2857,30 +2870,48 @@
             return copy;
         }
 
-        // FX Drag and Drop
-        function autoScrollWhileDragging() {
-            if (!draggedCardId) { dragScrollRaf = null; return; }
+        // Przewijanie w trakcie przeciągania uruchamiamy tylko przy krawędzi ekranu.
+        function dragScrollVelocity() {
             const edge = 105;
             const height = window.innerHeight;
-            let velocity = 0;
             if (dragPointerY < edge) {
                 const ratio = Math.max(0, Math.min(1, (edge - dragPointerY) / edge));
-                velocity = -Math.pow(ratio, 1.45) * 8;
-            } else if (dragPointerY > height - edge) {
-                const ratio = Math.max(0, Math.min(1, (dragPointerY - (height - edge)) / edge));
-                velocity = Math.pow(ratio, 1.45) * 8;
+                return -Math.pow(ratio, 1.45) * 8;
             }
-            if (velocity) window.scrollBy(0, velocity);
+            if (dragPointerY > height - edge) {
+                const ratio = Math.max(0, Math.min(1, (dragPointerY - (height - edge)) / edge));
+                return Math.pow(ratio, 1.45) * 8;
+            }
+            return 0;
+        }
+        function stopDragAutoScroll() {
+            if (dragScrollRaf !== null) cancelAnimationFrame(dragScrollRaf);
+            dragScrollRaf = null;
+        }
+        function updateDragAutoScroll(pointerY) {
+            if (!draggedCardId) return;
+            if (Number.isFinite(pointerY)) dragPointerY = pointerY;
+            const edge = 105;
+            const nearEdge = dragPointerY < edge || dragPointerY > window.innerHeight - edge;
+            if (nearEdge && dragScrollRaf === null) dragScrollRaf = requestAnimationFrame(autoScrollWhileDragging);
+            else if (!nearEdge && dragScrollRaf !== null) stopDragAutoScroll();
+        }
+        function autoScrollWhileDragging() {
+            dragScrollRaf = null;
+            if (!draggedCardId) return;
+            const velocity = dragScrollVelocity();
+            if (!velocity) return;
+            window.scrollBy(0, velocity);
             dragScrollRaf = requestAnimationFrame(autoScrollWhileDragging);
         }
         function handleDragStart(e) {
             draggedCardId = this.getAttribute('data-id');
             draggedCardType = this.getAttribute('data-type');
-            dragPointerY = e.clientY || window.innerHeight / 2;
+            dragPointerY = Number.isFinite(e.clientY) ? e.clientY : window.innerHeight / 2;
             this.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/plain', draggedCardId);
-            if (dragScrollRaf === null) dragScrollRaf = requestAnimationFrame(autoScrollWhileDragging);
+            updateDragAutoScroll();
         }
 
         function handleDragEnd(e) {
@@ -2888,8 +2919,7 @@
             document.querySelectorAll('.game-card').forEach(card => card.classList.remove('drag-over'));
             draggedCardId = null;
             draggedCardType = null;
-            if (dragScrollRaf !== null) cancelAnimationFrame(dragScrollRaf);
-            dragScrollRaf = null;
+            stopDragAutoScroll();
         }
 
         function handleDragOver(e) {
@@ -3181,10 +3211,7 @@
             }
         });
 
-        document.addEventListener('dragover', (e) => {
-            if (!draggedCardId) return;
-            dragPointerY = e.clientY;
-        });
+        document.addEventListener('dragover', (e) => updateDragAutoScroll(e.clientY));
         // Kółko myszy też może przewijać stronę podczas trzymania przeciąganej karty.
         document.addEventListener('wheel', (e) => {
             if (!draggedCardId) return;
@@ -3255,6 +3282,7 @@
     (() => {
         const SUPABASE_URL = 'https://gftxygomulcotrwslyqi.supabase.co';
         const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_fV9y-ZIAqamDQpoKgZTZJg_qJEnWP0x';
+        const APP_REDIRECT_URL = 'https://lukivislaud.github.io/lol123/';
         const profileControl = document.getElementById('profileControl');
         const profileToggle = document.getElementById('profileToggle');
         const profileMenu = document.getElementById('profileMenu');
@@ -3325,8 +3353,7 @@
             const label = signInButton.querySelector('span');
             const oldLabel = label.textContent;
             label.textContent = 'Łączenie z Google…';
-            const options = { queryParams: { prompt: 'select_account' } };
-            if (window.location.protocol === 'https:' || window.location.protocol === 'http:') options.redirectTo = window.location.origin + window.location.pathname;
+            const options = { redirectTo: APP_REDIRECT_URL, queryParams: { prompt: 'select_account' } };
             try {
                 const { error } = await authClient.auth.signInWithOAuth({ provider: 'google', options });
                 if (error) throw error;
@@ -3388,7 +3415,7 @@
             return;
         }
         authClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-            auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
+            auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true, flowType: 'pkce' }
         });
         window.libraryAuthClient = authClient;
         authClient.auth.onAuthStateChange((event, session) => {
@@ -3426,4 +3453,5 @@
     </script>
 </body>
 </html>
+
 
