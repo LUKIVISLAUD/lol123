@@ -1304,7 +1304,28 @@
         .profile-control .settings-menu.open { display:block !important; transform-origin:top center; }
         body[data-theme="light"] .account-gate-card { color:#202638; background:rgba(255,255,255,.94); border-color:rgba(51,65,85,.16); }
         @media (max-width:768px) { .profile-toggle { width:3.45rem; height:3.45rem; min-width:3.45rem; } .account-gate { min-height:calc(100vh - 9rem); padding:1rem .3rem; } .account-gate-card { padding:1.4rem 1rem; } }
-    </style>
+    .profile-toggle.profile-pending .profile-avatar-fallback { visibility:hidden; }
+        .settings-tabs { display:grid; grid-template-columns:1fr 1fr; gap:.3rem; margin:0 0 .72rem; padding:.24rem; border:1px solid var(--glass-border); border-radius:.78rem; background:rgba(255,255,255,.035); }
+        .settings-tab { display:flex; align-items:center; justify-content:center; gap:.45rem; min-width:0; min-height:2.35rem; padding:.45rem .4rem; border:1px solid transparent; border-radius:.62rem; color:var(--text-dim); background:transparent; font:inherit; font-size:.7rem; font-weight:750; cursor:pointer; transition:color .18s ease,background .18s ease,border-color .18s ease; }
+        .settings-tab.active { color:var(--text); background:rgba(var(--accent-rgb),.14); border-color:rgba(var(--accent-rgb),.28); }
+        .settings-tab-panel[hidden] { display:none !important; }
+        .settings-notifications-list { display:grid; gap:.46rem; margin-top:.65rem; }
+        .notification-setting-row { display:flex; align-items:center; justify-content:space-between; gap:.7rem; padding:.62rem .64rem; border:1px solid var(--glass-border); border-radius:.72rem; background:rgba(255,255,255,.035); cursor:pointer; }
+        .notification-setting-copy { display:grid; gap:.14rem; min-width:0; }
+        .notification-setting-copy strong { font-size:.72rem; font-weight:750; }
+        .notification-setting-copy > span { color:var(--text-dim); font-size:.62rem; line-height:1.4; }
+        .notification-switch { appearance:none; position:relative; flex:0 0 auto; width:2.3rem; height:1.32rem; margin:0; border:1px solid rgba(161,161,170,.45); border-radius:999px; background:rgba(113,113,122,.28); cursor:pointer; transition:background .18s ease,border-color .18s ease; }
+        .notification-switch::after { content:""; position:absolute; top:50%; left:.15rem; width:.9rem; height:.9rem; border-radius:50%; background:#d4d4d8; transform:translateY(-50%); transition:left .18s ease,background .18s ease; }
+        .notification-switch:checked { border-color:var(--accent); background:var(--accent); }
+        .notification-switch:checked::after { left:calc(100% - 1.05rem); background:#fff; }
+        .notification-switch:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+        .account-gate.gate-loading-quiet .account-gate-card { visibility:hidden; opacity:0; }
+        .account-gate-card { transition:opacity .12s ease; }
+        body[data-theme="light"] .settings-tabs, body[data-theme="light"] .notification-setting-row { background:rgba(51,65,85,.025); border-color:rgba(51,65,85,.12); }
+        body[data-theme="light"] .settings-tab { color:#667085; }
+        body[data-theme="light"] .settings-tab.active { color:#202638; background:rgba(99,102,241,.09); border-color:rgba(99,102,241,.2); }
+        @media (max-width:360px) { .settings-tab { font-size:.64rem; gap:.3rem; } .notification-setting-row { padding:.54rem; } }
+</style>
 </head>
 <body>
 
@@ -1433,7 +1454,7 @@
                 <div class="theme-menu" id="themeMenu" role="menu" aria-label="Motywy kolorystyczne"></div>
             </div>
             <div class="profile-control tooltip-wrap" id="profileControl" data-tooltip="Konto">
-                <button type="button" class="tool-btn profile-toggle" id="profileToggle" onclick="toggleProfileMenu(event)" aria-label="Konto i profil" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="tool-btn profile-toggle profile-pending" id="profileToggle" onclick="toggleProfileMenu(event)" aria-label="Konto i profil" aria-haspopup="true" aria-expanded="false">
                     <img id="profileAvatarImage" alt="Zdjęcie profilowe" hidden>
                     <i id="profileAvatarFallback" class="fa-solid fa-user profile-avatar-fallback" aria-hidden="true"></i>
                 </button>
@@ -1464,7 +1485,14 @@
             <div class="tooltip-wrap settings-control" id="settingsControl" data-tooltip="Ustawienia wyglądu">
                 <button type="button" class="tool-btn icon-action settings-btn" id="settingsToggle" onclick="toggleSettingsMenu(event)" aria-label="Ustawienia wyglądu" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-gear"></i><span>Ustawienia strony</span></button>
                 <div class="settings-menu" id="settingsMenu" role="menu" aria-label="Ustawienia strony">
+                    <div class="settings-tabs" role="tablist" aria-label="Sekcje ustawień">
+                        <button type="button" class="settings-tab active" id="settingsTabAppearance" role="tab" aria-selected="true" aria-controls="settingsPanelAppearance" onclick="selectSettingsTab('appearance',event)"><i class="fa-solid fa-palette" aria-hidden="true"></i><span>Wygląd</span></button>
+                        <button type="button" class="settings-tab" id="settingsTabNotifications" role="tab" aria-selected="false" aria-controls="settingsPanelNotifications" onclick="selectSettingsTab('notifications',event)"><i class="fa-regular fa-bell" aria-hidden="true"></i><span>Powiadomienia</span></button>
+                    </div>
+
+                    <section class="settings-tab-panel" id="settingsPanelAppearance" role="tabpanel" aria-labelledby="settingsTabAppearance">
                     <div class="settings-heading">Ustawienia wyglądu</div>
+
                     <div class="settings-description">Dopasuj układ biblioteki. Zmiany zapisują się automatycznie i zostają po odświeżeniu strony.</div>
                     <div class="settings-section-head"><span class="settings-label">Wielkość kafelków</span><button type="button" class="settings-mini-reset" onclick="resetOneSetting('density',event)">Domyślne</button></div>
                     <div class="density-options" id="densityOptions"></div>
@@ -1491,6 +1519,34 @@
                     </div>
                     <div class="settings-separator"></div>
                     <button type="button" class="settings-reset" onclick="resetAppearanceSettings(event)"><i class="fa-solid fa-rotate-left"></i> Przywróć wszystkie domyślne ustawienia</button>
+                    </section>
+                    <section class="settings-tab-panel" id="settingsPanelNotifications" role="tabpanel" aria-labelledby="settingsTabNotifications" hidden>
+                        <div class="settings-heading">Powiadomienia</div>
+                        <div class="settings-description">Wybierz, które komunikaty chcesz widzieć. Informacje o błędach nadal będą pokazywane.</div>
+                        <div class="settings-notifications-list">
+                            <label class="notification-setting-row">
+                                <span class="notification-setting-copy"><strong>Powitanie przy wejściu</strong><span>„Witaj, imię” po otwarciu strony na zalogowanym koncie.</span></span>
+                                <input class="notification-switch" type="checkbox" id="toastPrefWelcome" checked onchange="setToastPreference('welcome',this.checked)" aria-label="Powitanie przy wejściu">
+                            </label>
+                            <label class="notification-setting-row">
+                                <span class="notification-setting-copy"><strong>Potwierdzenie logowania</strong><span>„Zalogowano. Witaj…” po zalogowaniu przez Google.</span></span>
+                                <input class="notification-switch" type="checkbox" id="toastPrefLogin" checked onchange="setToastPreference('login',this.checked)" aria-label="Potwierdzenie logowania">
+                            </label>
+                            <label class="notification-setting-row">
+                                <span class="notification-setting-copy"><strong>Zmiany w bibliotece</strong><span>Dodawanie gier, zmiany statusu, notatki i wczytanie kopii.</span></span>
+                                <input class="notification-switch" type="checkbox" id="toastPrefLibrary" checked onchange="setToastPreference('library',this.checked)" aria-label="Powiadomienia o zmianach w bibliotece">
+                            </label>
+                            <label class="notification-setting-row">
+                                <span class="notification-setting-copy"><strong>Przeciąganie gier</strong><span>Powiadomienie po ręcznej zmianie kolejności. Domyślnie wyłączone.</span></span>
+                                <input class="notification-switch" type="checkbox" id="toastPrefReorder" onchange="setToastPreference('reorder',this.checked)" aria-label="Powiadomienia o przeciąganiu gier">
+                            </label>
+                            <label class="notification-setting-row">
+                                <span class="notification-setting-copy"><strong>Cofanie usunięcia i ustawień</strong><span>Wyłączenie ukryje też przycisk „Cofnij” w tych komunikatach.</span></span>
+                                <input class="notification-switch" type="checkbox" id="toastPrefUndo" checked onchange="setToastPreference('undo',this.checked)" aria-label="Powiadomienia z możliwością cofnięcia">
+                            </label>
+                        </div>
+                    </section>
+
                 </div>
             </div>
                     <button type="button" class="profile-menu-button profile-logout-button" id="profileSignOutButton" hidden>
@@ -1501,7 +1557,7 @@
         </div>
     </div>
 
-    <div id="accountGate" class="account-gate" role="status" aria-live="polite"><div class="account-gate-card"><div class="account-gate-icon"><i class="fa-solid fa-cloud-arrow-down" aria-hidden="true"></i></div><h2 id="accountGateTitle">Wczytuję bibliotekę</h2><p id="accountGateText">Sprawdzam, czy masz zapisane gry na tym urządzeniu lub koncie.</p><span id="accountGateSpinner" class="auth-loading-spinner" aria-hidden="true"></span><button id="accountGateSignIn" type="button" class="profile-menu-button profile-google-button" hidden><i class="fa-brands fa-google" aria-hidden="true"></i><span>Zaloguj przez Google</span></button></div></div>
+    <div id="accountGate" class="account-gate gate-loading-quiet" role="status" aria-live="polite"><div class="account-gate-card"><div class="account-gate-icon"><i class="fa-solid fa-cloud-arrow-down" aria-hidden="true"></i></div><h2 id="accountGateTitle">Wczytuję bibliotekę</h2><p id="accountGateText">Sprawdzam, czy masz zapisane gry na tym urządzeniu lub koncie.</p><span id="accountGateSpinner" class="auth-loading-spinner" aria-hidden="true"></span><button id="accountGateSignIn" type="button" class="profile-menu-button profile-google-button" hidden><i class="fa-brands fa-google" aria-hidden="true"></i><span>Zaloguj przez Google</span></button></div></div>
     <div class="main-content account-locked"><div id="accountSyncNotice" class="account-sync-notice" role="status" aria-live="polite" hidden></div>
         <div id="statsPanel" class="stats-panel" aria-label="Statystyki biblioteki">
             <div class="stat-tile"><span id="statTotal" class="stat-number">0</span><span class="stat-label">Wszystkie gry</span></div>
@@ -1535,6 +1591,26 @@
         const TOAST_DURATION = 2900;
         const TOAST_UNDO_DURATION = 4200;
         const TOAST_EXIT_MS = 250;
+        const toastPreferenceDefaults = { welcome:true, login:true, library:true, reorder:false, undo:true };
+        const toastPreferences = { ...toastPreferenceDefaults };
+        try {
+            const savedToastPreferences = JSON.parse(localStorage.getItem('gt_v10_toast_preferences') || '{}');
+            Object.keys(toastPreferenceDefaults).forEach(key => {
+                if (typeof savedToastPreferences[key] === 'boolean') toastPreferences[key] = savedToastPreferences[key];
+            });
+        } catch (_) {}
+        function renderToastPreferences() {
+            const ids = { welcome:'toastPrefWelcome', login:'toastPrefLogin', library:'toastPrefLibrary', reorder:'toastPrefReorder', undo:'toastPrefUndo' };
+            Object.keys(ids).forEach(key => {
+                const input = document.getElementById(ids[key]);
+                if (input) input.checked = toastPreferences[key] !== false;
+            });
+        }
+        window.setToastPreference = (key, value) => {
+            if (!Object.prototype.hasOwnProperty.call(toastPreferenceDefaults, key)) return;
+            toastPreferences[key] = Boolean(value);
+            try { localStorage.setItem('gt_v10_toast_preferences', JSON.stringify(toastPreferences)); } catch (_) {}
+        };
         let suppressUndoSnapshotSync = false;
         // Motywy wybierane z menu; zachowujemy istniejące identyfikatory z localStorage.
         const themeOptions = [
@@ -1691,6 +1767,7 @@
             renderOptionGroup('cardMotionOptions', cardMotionOptions, 'card-motion-option', 'selectCardMotion');
             renderOptionGroup('coverShineOptions', coverShineOptions, 'cover-shine-option', 'selectCoverShine');
             renderOptionGroup('notesVisibilityOptions', notesVisibilityOptions, 'notes-visibility-option', 'selectNotesVisibility');
+            renderToastPreferences();
         }
         function updateOptionGroup(selector, dataAttr, value) {
             document.querySelectorAll(selector).forEach(option => {
@@ -1760,6 +1837,20 @@
             const open = !menu.classList.contains('open');
             menu.classList.toggle('open', open);
             button.setAttribute('aria-expanded', String(open));
+        };
+        window.selectSettingsTab = (tab, event) => {
+            if (event) event.stopPropagation();
+            const notifications = tab === "notifications";
+            const appearancePanel = document.getElementById("settingsPanelAppearance");
+            const notificationsPanel = document.getElementById("settingsPanelNotifications");
+            const appearanceTab = document.getElementById("settingsTabAppearance");
+            const notificationsTab = document.getElementById("settingsTabNotifications");
+            appearancePanel.hidden = notifications;
+            notificationsPanel.hidden = !notifications;
+            appearanceTab.classList.toggle("active", !notifications);
+            notificationsTab.classList.toggle("active", notifications);
+            appearanceTab.setAttribute("aria-selected", String(!notifications));
+            notificationsTab.setAttribute("aria-selected", String(notifications));
         };
         function closeSettingsMenu() {
             const menu = document.getElementById('settingsMenu');
@@ -1843,7 +1934,7 @@
                 applyNotesVisibility('on');
             } finally { suppressUndoSnapshotSync = oldSuppress; }
             render();
-            showUndoToast('Przywrócono wszystkie domyślne ustawienia wyglądu', snapshot, true);
+            showUndoToast('Przywrócono wszystkie domyślne ustawienia wyglądu', snapshot, true, 'undo');
             closeSettingsMenu();
         };
         renderThemeMenu();
@@ -2069,7 +2160,8 @@
             const lockRemaining = toastDismissLockUntil - Date.now();
             if (lockRemaining > 0) setTimeout(updateToastUndoButtons, lockRemaining + 15);
         }
-        function showUndoToast(message, snapshot = null, canUndo = false) {
+        function showUndoToast(message, snapshot = null, canUndo = false, category = 'library') {
+            if (Object.prototype.hasOwnProperty.call(toastPreferenceDefaults, category) && toastPreferences[category] === false) return;
             // Jeden komunikat jest widoczny naraz, a pozostałe czekają w kolejce.
             // Undo jest dostępne wyłącznie dla usunięcia gry i resetu wszystkich ustawień.
             const item = {
@@ -2856,7 +2948,7 @@
                     list.splice(deletedIndex, 1);
                     saveOnly();
                     triggerEntranceAnim = false;
-                    showUndoToast(`Usunięto „${deletedGame.name}”`, snapshot, true);
+                    showUndoToast(`Usunięto „${deletedGame.name}”`, snapshot, true, 'undo');
                 });
             } else {
                 closeDeleteModal();
@@ -2992,7 +3084,7 @@
                 saveOnly();
                 triggerEntranceAnim = false;
                 renderWithTransition();
-                showUndoToast('Zmieniono kolejność gier');
+                showUndoToast('Zmieniono kolejność gier', null, false, 'reorder');
             }
         }
 
@@ -3319,14 +3411,14 @@
 (() => {
 const SUPABASE_URL="https://gftxygomulcotrwslyqi.supabase.co",KEY="sb_publishable_fV9y-ZIAqamDQpoKgZTZJg_qJEnWP0x",REDIRECT="https://lukivislaud.github.io/lol123/",TABLE="game_library_accounts",BUCKET="avatars",EMPTY={toPlay:[],playing:[],completed:[]};
 const el=id=>document.getElementById(id),toggle=el("profileToggle"),menu=el("profileMenu"),control=el("profileControl"),avatar=el("profileAvatarImage"),avatarFallback=el("profileAvatarFallback"),summary=el("profileSummaryAvatarImage"),summaryFallback=el("profileSummaryAvatarFallback"),notice=el("accountSyncNotice"),gate=el("accountGate"),main=document.querySelector(".main-content");
-let client=null,authSdkReady=null,user=null,path=null,refreshTimer=null,saveTimer=null,chain=Promise.resolve(),generation=0,loadingId=null,loading=null,loadedId=null;
+        let client=null,authSdkReady=null,user=null,path=null,refreshTimer=null,saveTimer=null,chain=Promise.resolve(),generation=0,loadingId=null,loading=null,loadedId=null,authBootstrapPending=true,gateLoadingTimer=null;
 const page=new URL(location.href),query=page.searchParams,hash=new URLSearchParams(location.hash.replace(/^#/,"")),oauthError=query.get("error_description")||hash.get("error_description")||query.get("error")||hash.get("error"),oauthCallback=query.has("code")||hash.has("access_token")||hash.has("error");
 if(oauthCallback&&!oauthError)el("authLoading").classList.add("visible");
 function authError(s){el("profileAuthError").textContent=s||"";el("profileAuthError").classList.toggle("visible",Boolean(s));if(s&&!user)syncNotice("Logowanie: "+s);else if(!s&&!user)syncNotice("")}
 function syncNotice(s){notice.textContent=s||"";notice.hidden=!s}
-function setPhoto(s){[avatar,summary].forEach(i=>{if(s){i.src=s;i.hidden=false}else{i.removeAttribute("src");i.hidden=true}});avatarFallback.hidden=Boolean(s);summaryFallback.hidden=Boolean(s)}
-function gateMode(load){gate.hidden=false;main.classList.add("account-locked");el("accountGateTitle").textContent=load?"Wczytuję Twoją bibliotekę":"Zaloguj się, aby zobaczyć swoją bibliotekę";el("accountGateText").textContent=load?"Pobieram gry i profil przypisane do konta.":"Gry i zdjęcie profilowe są przypisane do konta i pojawią się po zalogowaniu.";el("accountGateSpinner").hidden=!load;el("accountGateSignIn").hidden=load}
-function showLibrary(){gate.hidden=true;main.classList.remove("account-locked")}
+function setPhoto(s){[avatar,summary].forEach(i=>{if(s){i.src=s;i.hidden=false}else{i.removeAttribute("src");i.hidden=true}});avatarFallback.hidden=Boolean(s);summaryFallback.hidden=Boolean(s);if(!authBootstrapPending)toggle.classList.remove("profile-pending")}
+function gateMode(load){clearTimeout(gateLoadingTimer);gate.classList.toggle("gate-loading-quiet",Boolean(load));gate.hidden=false;main.classList.add("account-locked");el("accountGateTitle").textContent=load?"Wczytuję Twoją bibliotekę":"Zaloguj się, aby zobaczyć swoją bibliotekę";el("accountGateText").textContent=load?"Pobieram gry i profil przypisane do konta.":"Gry i zdjęcie profilowe są przypisane do konta i pojawią się po zalogowaniu.";el("accountGateSpinner").hidden=!load;el("accountGateSignIn").hidden=load;if(load)gateLoadingTimer=setTimeout(()=>{gateLoadingTimer=null;if(!gate.hidden)gate.classList.remove("gate-loading-quiet")},450)}
+function showLibrary(){clearTimeout(gateLoadingTimer);gateLoadingTimer=null;gate.classList.remove("gate-loading-quiet");gate.hidden=true;main.classList.remove("account-locked")}
 function norm(x){const a=x&&typeof x==="object"&&!Array.isArray(x)?x:{};return {...a,toPlay:Array.isArray(a.toPlay)?a.toPlay:[],playing:Array.isArray(a.playing)?a.playing:[],completed:Array.isArray(a.completed)?a.completed:[]}}
 function key(x){return "gt_v10_liquid_"+x.id}
 function oldPhotoKey(x){return "gt_v9_profile_avatar_"+x.id}
@@ -3356,14 +3448,14 @@ async function writeRow(x,g,p){const {error}=await client.from(TABLE).upsert({us
 function enqueue(g,p){if(!client||!user||!window.accountCloudReady)return Promise.resolve();const owner=user,snapshot=norm(g);chain=chain.catch(()=>{}).then(async()=>{if(!user||user.id!==owner.id||!window.accountCloudReady)return;await writeRow(owner,snapshot,p);if(user&&user.id===owner.id)syncNotice("")});return chain}
 window.accountCloudSave=g=>{if(!user||!window.accountCloudReady)return;const snapshot=norm(g);cache(user,snapshot);clearTimeout(saveTimer);saveTimer=setTimeout(()=>enqueue(snapshot,path).catch(e=>{if(user)syncNotice("Nie udało się zsynchronizować biblioteki. Zmiany są zapisane na razie w tej przeglądarce. "+(e.message||""))}),650)};
 async function signedPhoto(x,p){if(!client||!p||!user||user.id!==x.id){setPhoto(null);return}const {data,error}=await client.storage.from(BUCKET).createSignedUrl(p,3600);if(error||!data||!data.signedUrl){setPhoto(null);syncNotice("Biblioteka wczytana, ale nie udało się pobrać avatara.");return}setPhoto(data.signedUrl);clearTimeout(refreshTimer);refreshTimer=setTimeout(()=>{if(user&&user.id===x.id&&path===p)signedPhoto(x,p).catch(()=>{})},50*60*1000)}
-async function makePhoto(blob){const u=URL.createObjectURL(blob);try{const im=new Image();im.src=u;if(im.decode)await im.decode();else await new Promise((ok,no)=>{im.onload=ok;im.onerror=no});const n=512,c=document.createElement("canvas");c.width=n;c.height=n;const x=c.getContext("2d");if(!x)throw Error("Nie można przygotować zdjęcia.");x.fillStyle="#101014";x.fillRect(0,0,n,n);const s=Math.max(n/im.naturalWidth,n/im.naturalHeight),w=im.naturalWidth*s,h=im.naturalHeight*s;x.save();try{x.filter="blur(24px) brightness(.66)"}catch(_){}x.drawImage(im,(n-w)/2,(n-h)/2,w,h);x.restore();const f=Math.min(n/im.naturalWidth,n/im.naturalHeight),iw=im.naturalWidth*f,ih=im.naturalHeight*f;x.imageSmoothingEnabled=true;x.imageSmoothingQuality="high";x.drawImage(im,(n-iw)/2,(n-ih)/2,iw,ih);const webp=await new Promise(r=>c.toBlob(r,"image/webp",.92));if(webp&&webp.type==="image/webp")return webp;const jpg=await new Promise(r=>c.toBlob(r,"image/jpeg",.92));if(!jpg)throw Error("Nie udało się przygotować zdjęcia.");return jpg}finally{URL.revokeObjectURL(u)}}
+async function makePhoto(blob){const u=URL.createObjectURL(blob);try{const im=new Image();im.src=u;if(im.decode)await im.decode();else await new Promise((ok,no)=>{im.onload=ok;im.onerror=no});const n=Math.max(512,Math.min(1024,Math.max(im.naturalWidth,im.naturalHeight))),c=document.createElement("canvas");c.width=n;c.height=n;const x=c.getContext("2d");if(!x)throw Error("Nie można przygotować zdjęcia.");x.fillStyle="#101014";x.fillRect(0,0,n,n);const s=Math.max(n/im.naturalWidth,n/im.naturalHeight),w=im.naturalWidth*s,h=im.naturalHeight*s;x.save();try{x.filter="blur(24px) brightness(.66)"}catch(_){}x.drawImage(im,(n-w)/2,(n-h)/2,w,h);x.restore();const f=Math.min(n/im.naturalWidth,n/im.naturalHeight),iw=im.naturalWidth*f,ih=im.naturalHeight*f;x.imageSmoothingEnabled=true;x.imageSmoothingQuality="high";x.drawImage(im,(n-iw)/2,(n-ih)/2,iw,ih);const webp=await new Promise(r=>c.toBlob(r,"image/webp",.96));if(webp&&webp.type==="image/webp")return webp;const jpg=await new Promise(r=>c.toBlob(r,"image/jpeg",.96));if(!jpg)throw Error("Nie udało się przygotować zdjęcia.");return jpg}finally{URL.revokeObjectURL(u)}}
 async function uploadPhoto(x,blob){if(!user||user.id!==x.id||!window.accountCloudReady)throw Error("Poczekaj, aż biblioteka konta zostanie wczytana.");const ext=blob.type==="image/webp"?"webp":"jpg",rand=crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2),p=x.id+"/"+Date.now()+"-"+rand+"."+ext;const {error}=await client.storage.from(BUCKET).upload(p,blob,{contentType:blob.type,cacheControl:"3600",upsert:false});if(error)throw error;const old=path;path=p;try{await enqueue(library(),p)}catch(e){path=old;await client.storage.from(BUCKET).remove([p]).catch(()=>{});throw e}try{localStorage.removeItem(oldPhotoKey(x))}catch(_){}await signedPhoto(x,p);if(old&&old!==p)client.storage.from(BUCKET).remove([old]).then(({error:e})=>{if(e)console.warn("Nie udało się usunąć starego zdjęcia.",e)})}
 async function migratePhoto(x,data){if(!data||!window.accountCloudReady||path)return;try{const r=await fetch(data),b=await makePhoto(await r.blob());if(user&&user.id===x.id&&window.accountCloudReady)await uploadPhoto(x,b)}catch(_){syncNotice("Biblioteka działa, ale stare zdjęcie nie zostało przeniesione. Możesz wgrać je ponownie.")}}
 async function loadAccount(x,t){window.accountLibraryUserId=x.id;window.accountAuthResolved=false;window.accountCloudReady=false;window.replaceAccountLibraryState(EMPTY);syncNotice("");gateMode(true);let old=oldPhoto(x);try{const {data:row,error}=await withTimeout(client.from(TABLE).select("library,avatar_path").eq("user_id",x.id).maybeSingle(),10000,"Pobieranie biblioteki trwało zbyt długo.");if(t!==generation||!user||user.id!==x.id)return;if(error)throw error;if(row){const g=norm(row.library);path=row.avatar_path||null;replace(g);cache(x,g);try{localStorage.removeItem("gt_v10_guest_liquid");localStorage.removeItem("gt_v9_liquid")}catch(_){}window.accountAuthResolved=true;window.accountCloudReady=true;loadedId=x.id;showLibrary();if(path)await signedPhoto(x,path);else if(old){setPhoto(old);migratePhoto(x,old)}else setPhoto(null);return}const saved=readCache(x),guest=readGuest(),legacy=readLegacy(),g=saved||guest||legacy||{toPlay:[],playing:[],completed:[]},usedGuest=!saved&&Boolean(guest);path=null;replace(g);await withTimeout(writeRow(x,g,null),10000,"Zapisywanie biblioteki trwało zbyt długo.");if(t!==generation||!user||user.id!==x.id)return;cache(x,g);try{localStorage.removeItem("gt_v10_guest_liquid");localStorage.removeItem("gt_v9_liquid")}catch(_){}window.accountAuthResolved=true;window.accountCloudReady=true;loadedId=x.id;showLibrary();if(old){setPhoto(old);migratePhoto(x,old)}else setPhoto(null)}catch(e){if(t!==generation||!user||user.id!==x.id)return;window.accountAuthResolved=true;window.accountCloudReady=false;path=null;replace(readCache(x)||{toPlay:[],playing:[],completed:[]});old=oldPhoto(x);setPhoto(old);showLibrary();syncNotice("Nie udało się połączyć z bazą konta. Uruchom skrypt Supabase i odśwież stronę. Zapis działa na razie tylko w tej przeglądarce. "+(e.message||""))}}
 function activate(x){if(loadedId===x.id&&window.accountCloudReady)return;if(loadingId===x.id&&loading)return;generation++;const t=generation;loadingId=x.id;loading=loadAccount(x,t).finally(()=>{if(loadingId===x.id){loadingId=null;loading=null}})}
 function clearAccount(){generation++;loadingId=null;loading=null;loadedId=null;clearTimeout(saveTimer);clearTimeout(refreshTimer);window.accountLibraryUserId=null;window.accountAuthResolved=false;window.accountCloudReady=false;path=null;setPhoto(null);syncNotice("");window.replaceAccountLibraryState(EMPTY);gateMode(true);closeMenu()}
 function showGuest(){generation++;loadingId=null;loading=null;loadedId=null;clearTimeout(saveTimer);clearTimeout(refreshTimer);window.accountLibraryUserId=null;window.accountAuthResolved=true;window.accountCloudReady=false;path=null;setPhoto(null);syncNotice("");window.replaceAccountLibraryState(readGuest()||readLegacy()||EMPTY);showLibrary()}
-function sessionChanged(s){const next=s&&s.user?s.user:null;if(!next){renderProfile(null);showGuest();closeMenu();return}const prior=user&&user.id;if(prior&&prior!==next.id)clearAccount();renderProfile(next);activate(next)}
+function sessionChanged(s){const next=s&&s.user?s.user:null;if(!next){renderProfile(null);showGuest();closeMenu();return}const prior=user&&user.id;if(prior&&prior!==next.id){clearAccount();toggle.classList.add("profile-pending")}renderProfile(next);activate(next)}
 el("profileSignOutButton").addEventListener("click",async()=>{if(!client)return;authError("");const {error}=await client.auth.signOut();if(error)authError("Nie udało się wylogować: "+error.message);else closeMenu()});
 el("chooseAvatarButton").addEventListener("click",()=>{authError("");if(!user||!window.accountCloudReady){authError("Poczekaj, aż biblioteka konta zostanie wczytana.");return}el("profileAvatarInput").value="";el("profileAvatarInput").click()});
 el("removeAvatarButton").addEventListener("click",async()=>{if(!user||!window.accountCloudReady)return;const x=user,old=path;authError("");path=null;try{await enqueue(library(),null);setPhoto(null);if(old){const {error}=await client.storage.from(BUCKET).remove([old]);if(error)console.warn("Nie udało się usunąć zdjęcia.",error)}}catch(e){path=old;authError("Nie udało się usunąć zdjęcia: "+(e.message||"spróbuj ponownie."))}});
@@ -3389,13 +3481,10 @@ function initializeAuthClient(){
  window.libraryAuthClient=client;
  client.auth.onAuthStateChange((event,s)=>{
   setTimeout(()=>sessionChanged(s),0);
-  if(event==="SIGNED_IN"&&s&&s.user&&!oauthCallback&&typeof window.showUndoToast==="function"){
-   const g=s.user.user_metadata&&(s.user.user_metadata.given_name||s.user.user_metadata.name);
-   window.showUndoToast(g?"Zalogowano. Witaj, "+g+"!":"Zalogowano przez Google.")
-  }
+
  });
  withTimeout(client.auth.getSession(),8500,"Nie udało się sprawdzić sesji w wyznaczonym czasie.").then(({data,error})=>{
-  const s=data&&data.session?data.session:null;sessionChanged(s);
+  const s=data&&data.session?data.session:null;authBootstrapPending=false;sessionChanged(s);if(!s||loadedId===s.user.id&&window.accountCloudReady)toggle.classList.remove("profile-pending");
   if(error)authError("Nie udało się odczytać sesji: "+error.message);
   if(oauthError)authError(oauthError);
   if(oauthCallback){
@@ -3406,20 +3495,23 @@ function initializeAuthClient(){
    clean.hash=h.toString()?"#"+h.toString():"";
    history.replaceState({},document.title,clean.pathname+clean.search+clean.hash);
    if(!oauthError&&s&&typeof window.showUndoToast==="function"){
-    const g=s.user.user_metadata&&(s.user.user_metadata.given_name||s.user.user_metadata.name);
-    window.showUndoToast(g?"Zalogowano. Witaj, "+g+"!":"Zalogowano przez Google.")
+    const g=s.user.user_metadata&&(s.user.user_metadata.full_name||s.user.user_metadata.name||s.user.user_metadata.given_name);
+    window.showUndoToast(g?"Zalogowano. Witaj, "+g+"!":"Zalogowano przez Google.",null,false,"login")
    }
    setTimeout(()=>el("authLoading").classList.remove("visible"),950)
+  }else if(s&&!error&&!oauthError&&typeof window.showUndoToast==="function"){
+   const g=s.user.user_metadata&&(s.user.user_metadata.full_name||s.user.user_metadata.name||s.user.user_metadata.given_name);
+   window.showUndoToast(g?"Witaj, "+g+"!":"Witaj!",null,false,"welcome")
   }
  }).catch(e=>{
-  renderProfile(null);showGuest();
+  authBootstrapPending=false;toggle.classList.remove("profile-pending");renderProfile(null);showGuest();
   authError("Nie udało się sprawdzić logowania: "+(e.message||"spróbuj ponownie."));
   el("authLoading").classList.remove("visible")
  });
  return client
 }
 authSdkReady=loadSupabaseSdk().then(initializeAuthClient).catch(e=>{
- authError("Logowanie niedostępne: "+(e.message||"sprawdź połączenie z internetem."));
+ authBootstrapPending=false;toggle.classList.remove("profile-pending");authError("Logowanie niedostępne: "+(e.message||"sprawdź połączenie z internetem."));
  el("authLoading").classList.remove("visible");
  return null
 });
