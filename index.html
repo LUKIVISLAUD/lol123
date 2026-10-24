@@ -1180,7 +1180,7 @@
 
         /* Profil i menu konta */
         .profile-control { position:relative; flex:0 0 auto; }
-        .profile-toggle { width:3.3rem; height:3.3rem; min-width:3.3rem; padding:0 !important; border-radius:50%; overflow:hidden; display:grid; place-items:center; background:#0b0b10; border:2px solid rgba(161,161,170,.62); color:#85858e; box-shadow:inset 0 1px 0 rgba(255,255,255,.06); transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease; }
+        .profile-toggle { width:3.7rem; height:3.7rem; min-width:3.7rem; padding:0 !important; border-radius:50%; overflow:hidden; display:grid; place-items:center; background:#0b0b10; border:2px solid rgba(161,161,170,.62); color:#85858e; box-shadow:inset 0 1px 0 rgba(255,255,255,.06); transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease; }
         .profile-toggle:hover { transform:translateY(-1px); }
         .profile-toggle.is-authenticated { border-color:var(--accent); color:var(--accent); box-shadow:0 0 0 3px rgba(var(--accent-rgb),.12),0 0 20px rgba(var(--accent-rgb),.18); }
         .profile-toggle img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
@@ -1188,7 +1188,8 @@
         .profile-menu { display:none; position:absolute; right:0; top:calc(100% + .62rem); z-index:8000; width:min(320px,calc(100vw - 1.2rem)); max-height:min(82vh,720px); overflow:auto; overscroll-behavior:contain; padding:.82rem; border-radius:1.1rem; color:#f4f4f5; background:rgba(17,17,22,.98); border:1px solid var(--glass-border); box-shadow:0 24px 60px rgba(0,0,0,.58); backdrop-filter:blur(24px) saturate(135%); scrollbar-width:thin; scrollbar-color:rgba(var(--accent-rgb),.48) transparent; }
         .profile-menu.open { display:grid; gap:.62rem; animation:menuReveal .18s ease-out both; }
         .profile-summary { display:flex; align-items:center; gap:.72rem; padding:.25rem .2rem .72rem; }
-        .profile-summary-avatar { width:2.65rem; height:2.65rem; flex:0 0 auto; border-radius:50%; display:grid; place-items:center; color:var(--accent); background:rgba(var(--accent-rgb),.11); border:1px solid rgba(var(--accent-rgb),.42); font-size:1rem; }
+        .profile-summary-avatar { width:3.15rem; height:3.15rem; flex:0 0 auto; border-radius:50%; overflow:hidden; display:grid; place-items:center; color:var(--accent); background:rgba(var(--accent-rgb),.11); border:1px solid rgba(var(--accent-rgb),.52); font-size:1.1rem; }
+        .profile-summary-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
         .profile-summary-text { min-width:0; display:grid; gap:.16rem; }
         .profile-summary-text strong { font-size:.85rem; font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
         .profile-summary-text span { color:var(--text-dim); font-size:.7rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -1285,6 +1286,24 @@
         .profile-control .settings-menu { display:none; }
         .profile-control .settings-menu.open { display:block; transform-origin:top center; }
         .game-card.dragging, .game-card.drag-over { will-change:transform,opacity; }
+            .account-locked { display:none !important; }
+        .account-gate { min-height:calc(100vh - 10rem); display:grid; place-items:center; padding:2rem 1rem; }
+        .account-gate[hidden] { display:none !important; }
+        .account-gate-card { width:min(100%,28rem); display:grid; justify-items:center; gap:.85rem; padding:2rem; text-align:center; color:#f4f4f5; background:rgba(20,20,26,.9); border:1px solid var(--glass-border); border-radius:1.35rem; box-shadow:0 24px 70px rgba(0,0,0,.34); }
+        .account-gate-icon { width:3.5rem; height:3.5rem; display:grid; place-items:center; color:var(--accent); background:rgba(var(--accent-rgb),.12); border:1px solid rgba(var(--accent-rgb),.38); border-radius:1rem; font-size:1.35rem; }
+        .account-gate-card h2 { margin:0; font-size:1.12rem; }
+        .account-gate-card p { max-width:24rem; margin:0 0 .25rem; color:var(--text-dim); font-size:.84rem; line-height:1.55; }
+        .account-gate-card .auth-loading-spinner { margin:.3rem; }
+        .account-sync-notice { margin:0 0 1rem; padding:.75rem .9rem; color:#fde68a; background:rgba(120,80,10,.18); border:1px solid rgba(250,204,21,.25); border-radius:.8rem; font-size:.78rem; line-height:1.5; overflow-wrap:anywhere; }
+        .account-sync-notice[hidden] { display:none !important; }
+        .profile-control .profile-menu.open { display:flex; flex-direction:column; align-items:stretch; gap:.62rem; }
+        .profile-control .settings-control { display:block !important; position:static !important; flex:0 0 auto !important; width:100% !important; min-width:0 !important; max-width:100% !important; box-sizing:border-box; }
+        .profile-control .settings-btn { display:flex !important; width:100% !important; min-width:0 !important; min-height:2.75rem; justify-content:flex-start; box-sizing:border-box; }
+        .profile-control .settings-menu, .profile-control .settings-menu.open { position:static !important; inset:auto !important; float:none !important; transform:none !important; width:100% !important; min-width:0 !important; max-width:100% !important; max-height:min(48vh,430px); overflow:auto; overflow-x:hidden; box-sizing:border-box; margin:.38rem 0 0 !important; align-self:stretch; justify-self:stretch; }
+        .profile-control .settings-menu { display:none !important; }
+        .profile-control .settings-menu.open { display:block !important; transform-origin:top center; }
+        body[data-theme="light"] .account-gate-card { color:#202638; background:rgba(255,255,255,.94); border-color:rgba(51,65,85,.16); }
+        @media (max-width:768px) { .profile-toggle { width:3.45rem; height:3.45rem; min-width:3.45rem; } .account-gate { min-height:calc(100vh - 9rem); padding:1rem .3rem; } .account-gate-card { padding:1.4rem 1rem; } }
     </style>
 </head>
 <body>
@@ -1420,7 +1439,7 @@
                 </button>
                 <div class="profile-menu" id="profileMenu" aria-label="Menu profilu">
                     <div class="profile-summary">
-                        <div class="profile-summary-avatar"><i class="fa-solid fa-user" aria-hidden="true"></i></div>
+                        <div class="profile-summary-avatar"><img id="profileSummaryAvatarImage" alt="" hidden><i id="profileSummaryAvatarFallback" class="fa-solid fa-user" aria-hidden="true"></i></div>
                         <div class="profile-summary-text">
                             <strong id="profileName">Konto</strong>
                             <span id="profileEmail">Nie zalogowano</span>
@@ -1482,7 +1501,8 @@
         </div>
     </div>
 
-    <div class="main-content">
+    <div id="accountGate" class="account-gate" role="status" aria-live="polite"><div class="account-gate-card"><div class="account-gate-icon"><i class="fa-solid fa-cloud-arrow-down" aria-hidden="true"></i></div><h2 id="accountGateTitle">Zaloguj się, aby zobaczyć swoją bibliotekę</h2><p id="accountGateText">Gry i zdjęcie profilowe są przypisane do konta i pojawią się po zalogowaniu.</p><span id="accountGateSpinner" class="auth-loading-spinner" aria-hidden="true" hidden></span><button id="accountGateSignIn" type="button" class="profile-menu-button profile-google-button"><i class="fa-brands fa-google" aria-hidden="true"></i><span>Zaloguj przez Google</span></button></div></div>
+    <div class="main-content account-locked"><div id="accountSyncNotice" class="account-sync-notice" role="status" aria-live="polite" hidden></div>
         <div id="statsPanel" class="stats-panel" aria-label="Statystyki biblioteki">
             <div class="stat-tile"><span id="statTotal" class="stat-number">0</span><span class="stat-label">Wszystkie gry</span></div>
             <div class="stat-tile"><span id="statQueueCount" class="stat-number">0</span><span class="stat-label">W kolejce</span></div>
@@ -1930,7 +1950,13 @@
         };
         updatePlatformShortcuts();
 
-        const saveOnly = () => localStorage.setItem('gt_v9_liquid', JSON.stringify(state));
+        const saveOnly = () => {
+            const userId = window.accountLibraryUserId;
+            if (!userId) return;
+            const snapshot = JSON.stringify(state);
+            try { localStorage.setItem('gt_v10_liquid_' + userId, snapshot); } catch (_) {}
+            if (window.accountCloudReady && typeof window.accountCloudSave === 'function') window.accountCloudSave(JSON.parse(snapshot));
+        };
         // Starszym zapisom przypisujemy przybliżone daty na podstawie ich kolejności w liście.
         // Prawdziwa data dodania jest zapisywana dla nowych gier od tej wersji.
         function ensureAddedAt() {
@@ -2395,6 +2421,7 @@
         window.closeModal = () => document.getElementById('platformModal').style.display = 'none';
 
         window.confirmAdd = (platform) => {
+            if (!window.accountLibraryUserId || !window.accountCloudReady) { if (typeof window.toggleProfileMenu === 'function') window.toggleProfileMenu(); showUndoToast('Zaloguj się, aby dodawać gry do biblioteki.'); return; }
             if (!pendingGame) return;
             
             let shots = [];
@@ -3143,7 +3170,16 @@
             triggerEntranceAnim = false;
         }
 
+        window.replaceAccountLibraryState = (next) => {
+            const source = next && typeof next === 'object' ? next : {};
+            state = { ...source, toPlay: Array.isArray(source.toPlay) ? source.toPlay : [], playing: Array.isArray(source.playing) ? source.playing : [], completed: Array.isArray(source.completed) ? source.completed : [] };
+            triggerEntranceAnim = false;
+            render();
+        };
+        window.readAccountLibraryState = () => JSON.parse(JSON.stringify(state));
+
         window.exportData = () => { 
+            if (!window.accountLibraryUserId || !window.accountCloudReady) { alert('Zaloguj się, aby pobrać bibliotekę swojego konta.'); return; }
             const dateStr = new Date().toISOString().split('T')[0];
             const blob = new Blob([JSON.stringify(state)], {type: "application/json"}); 
             const url = URL.createObjectURL(blob); 
@@ -3154,6 +3190,7 @@
         };
         
         window.importData = (e) => {
+            if (!window.accountLibraryUserId || !window.accountCloudReady) { alert('Zaloguj się, aby wczytać bibliotekę na swoje konto.'); e.target.value = ''; return; }
             const file = e.target.files && e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
@@ -3279,178 +3316,53 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-    (() => {
-        const SUPABASE_URL = 'https://gftxygomulcotrwslyqi.supabase.co';
-        const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_fV9y-ZIAqamDQpoKgZTZJg_qJEnWP0x';
-        const APP_REDIRECT_URL = 'https://lukivislaud.github.io/lol123/';
-        const profileControl = document.getElementById('profileControl');
-        const profileToggle = document.getElementById('profileToggle');
-        const profileMenu = document.getElementById('profileMenu');
-        const profileName = document.getElementById('profileName');
-        const profileEmail = document.getElementById('profileEmail');
-        const profileSignedOut = document.getElementById('profileSignedOut');
-        const profileSignedIn = document.getElementById('profileSignedIn');
-        const profileSignOutButton = document.getElementById('profileSignOutButton');
-        const profileAvatarImage = document.getElementById('profileAvatarImage');
-        const profileAvatarFallback = document.getElementById('profileAvatarFallback');
-        const profileAuthError = document.getElementById('profileAuthError');
-        const profileAvatarInput = document.getElementById('profileAvatarInput');
-        const authLoading = document.getElementById('authLoading');
-
-        let authClient = null;
-        let currentUser = null;
-        const pageUrl = new URL(window.location.href);
-        const queryParams = pageUrl.searchParams;
-        const hashParams = new URLSearchParams(pageUrl.hash.replace(/^#/, ''));
-        const oauthError = queryParams.get('error_description') || hashParams.get('error_description') || queryParams.get('error') || hashParams.get('error');
-        const isOAuthCallback = queryParams.has('code') || hashParams.has('access_token') || hashParams.has('error');
-        if (isOAuthCallback && !oauthError) authLoading.classList.add('visible');
-
-        function setAuthError(message) {
-            profileAuthError.textContent = message || '';
-            profileAuthError.classList.toggle('visible', Boolean(message));
-        }
-        function avatarStorageKey(user) { return 'gt_v9_profile_avatar_' + user.id; }
-        function renderProfile(user) {
-            currentUser = user || null;
-            const signedIn = Boolean(currentUser);
-            profileToggle.classList.toggle('is-authenticated', signedIn);
-            profileToggle.setAttribute('aria-label', signedIn ? 'Profil: ' + (currentUser.email || 'zalogowano') : 'Zaloguj się przez Google');
-            profileSignedOut.hidden = signedIn;
-            profileSignedIn.hidden = !signedIn;
-            profileSignOutButton.hidden = !signedIn;
-            const metadata = currentUser && currentUser.user_metadata ? currentUser.user_metadata : {};
-            const friendlyName = metadata.full_name || metadata.name || (currentUser && currentUser.email) || 'Konto';
-            profileName.textContent = signedIn ? friendlyName : 'Konto';
-            profileEmail.textContent = signedIn ? (currentUser.email || 'Zalogowano') : 'Nie zalogowano';
-            let savedAvatar = null;
-            if (signedIn) { try { savedAvatar = localStorage.getItem(avatarStorageKey(currentUser)); } catch (_) {} }
-            profileAvatarImage.hidden = !savedAvatar;
-            profileAvatarFallback.hidden = Boolean(savedAvatar);
-            if (savedAvatar) profileAvatarImage.src = savedAvatar;
-            else profileAvatarImage.removeAttribute('src');
-        }
-        function closeProfileMenu() {
-            profileMenu.classList.remove('open');
-            profileToggle.setAttribute('aria-expanded', 'false');
-        }
-        window.toggleProfileMenu = (event) => {
-            if (event) event.stopPropagation();
-            const open = !profileMenu.classList.contains('open');
-            profileMenu.classList.toggle('open', open);
-            profileToggle.setAttribute('aria-expanded', String(open));
-        };
-        document.addEventListener('pointerdown', (event) => {
-            if (profileControl && !profileControl.contains(event.target)) closeProfileMenu();
-        });
-        document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeProfileMenu(); });
-
-        async function startGoogleSignIn() {
-            setAuthError('');
-            if (!authClient) { setAuthError('Logowanie nie jest teraz dostępne. Sprawdź połączenie z internetem i odśwież stronę.'); return; }
-            const signInButton = document.getElementById('googleSignInButton');
-            signInButton.disabled = true;
-            const label = signInButton.querySelector('span');
-            const oldLabel = label.textContent;
-            label.textContent = 'Łączenie z Google…';
-            const options = { redirectTo: APP_REDIRECT_URL, queryParams: { prompt: 'select_account' } };
-            try {
-                const { error } = await authClient.auth.signInWithOAuth({ provider: 'google', options });
-                if (error) throw error;
-                label.textContent = 'Przekierowuję do Google…';
-            } catch (error) {
-                setAuthError(error && error.message ? error.message : 'Nie udało się rozpocząć logowania przez Google.');
-                signInButton.disabled = false;
-                label.textContent = oldLabel;
-            }
-        }
-        document.getElementById('googleSignInButton').addEventListener('click', startGoogleSignIn);
-        document.getElementById('profileSignOutButton').addEventListener('click', async () => {
-            if (!authClient) return;
-            setAuthError('');
-            const { error } = await authClient.auth.signOut();
-            if (error) setAuthError('Nie udało się wylogować: ' + error.message);
-            else closeProfileMenu();
-        });
-        document.getElementById('chooseAvatarButton').addEventListener('click', () => {
-            setAuthError('');
-            profileAvatarInput.value = '';
-            profileAvatarInput.click();
-        });
-        document.getElementById('removeAvatarButton').addEventListener('click', () => {
-            if (!currentUser) return;
-            try { localStorage.removeItem(avatarStorageKey(currentUser)); }
-            catch (_) { setAuthError('Nie udało się usunąć zdjęcia z pamięci przeglądarki.'); return; }
-            renderProfile(currentUser);
-            setAuthError('');
-        });
-        profileAvatarInput.addEventListener('change', async (event) => {
-            const file = event.target.files && event.target.files[0];
-            if (!file || !currentUser) return;
-            if (!/^image\/(jpeg|png|webp)$/i.test(file.type)) { setAuthError('Wybierz zdjęcie w formacie JPG, PNG lub WebP.'); return; }
-            if (file.size > 10 * 1024 * 1024) { setAuthError('To zdjęcie jest za duże. Wybierz plik mniejszy niż 10 MB.'); return; }
-            const objectUrl = URL.createObjectURL(file);
-            try {
-                const image = new Image();
-                image.src = objectUrl;
-                if (image.decode) await image.decode();
-                else await new Promise((resolve, reject) => { image.onload = resolve; image.onerror = reject; });
-                const side = Math.min(image.naturalWidth, image.naturalHeight);
-                const sourceX = (image.naturalWidth - side) / 2;
-                const sourceY = (image.naturalHeight - side) / 2;
-                const canvas = document.createElement('canvas');
-                canvas.width = 120;
-                canvas.height = 120;
-                canvas.getContext('2d').drawImage(image, sourceX, sourceY, side, side, 0, 0, 120, 120);
-                localStorage.setItem(avatarStorageKey(currentUser), canvas.toDataURL('image/jpeg', .84));
-                renderProfile(currentUser);
-                setAuthError('');
-            } catch (_) { setAuthError('Nie udało się zapisać zdjęcia. Spróbuj innego pliku.'); }
-            finally { URL.revokeObjectURL(objectUrl); profileAvatarInput.value = ''; }
-        });
-
-        if (!window.supabase || typeof window.supabase.createClient !== 'function') {
-            setAuthError('Logowanie nie wczytało się. Sprawdź połączenie z internetem i odśwież stronę.');
-            renderProfile(null);
-            return;
-        }
-        authClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-            auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true, flowType: 'pkce' }
-        });
-        window.libraryAuthClient = authClient;
-        authClient.auth.onAuthStateChange((event, session) => {
-            const previousUserId = currentUser && currentUser.id;
-            renderProfile(session && session.user ? session.user : null);
-            if (event === 'SIGNED_IN' && session && session.user && session.user.id !== previousUserId && !isOAuthCallback) {
-                const greeting = session.user.user_metadata && (session.user.user_metadata.given_name || session.user.user_metadata.name);
-                if (typeof window.showUndoToast === 'function') window.showUndoToast(greeting ? 'Zalogowano. Witaj, ' + greeting + '!' : 'Zalogowano przez Google.');
-            }
-            if (event === 'SIGNED_OUT') closeProfileMenu();
-        });
-        authClient.auth.getSession().then(({ data, error }) => {
-            renderProfile(data && data.session ? data.session.user : null);
-            if (error) setAuthError('Nie udało się odczytać sesji: ' + error.message);
-            if (oauthError) setAuthError(oauthError);
-            if (isOAuthCallback) {
-                const cleanUrl = new URL(window.location.href);
-                ['code','state','error','error_code','error_description'].forEach((key) => cleanUrl.searchParams.delete(key));
-                const cleanHash = new URLSearchParams(cleanUrl.hash.replace(/^#/, ''));
-                ['access_token','refresh_token','token_type','expires_in','expires_at','provider_token','provider_refresh_token','state','error','error_description','error_code'].forEach((key) => cleanHash.delete(key));
-                cleanUrl.hash = cleanHash.toString() ? '#' + cleanHash.toString() : '';
-                window.history.replaceState({}, document.title, cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
-                if (!oauthError && data && data.session && typeof window.showUndoToast === 'function') {
-                    const greeting = data.session.user.user_metadata && (data.session.user.user_metadata.given_name || data.session.user.user_metadata.name);
-                    window.showUndoToast(greeting ? 'Zalogowano. Witaj, ' + greeting + '!' : 'Zalogowano przez Google.');
-                }
-                window.setTimeout(() => authLoading.classList.remove('visible'), 950);
-            }
-        }).catch((error) => {
-            renderProfile(null);
-            setAuthError('Nie udało się sprawdzić logowania: ' + (error && error.message ? error.message : 'spróbuj ponownie.'));
-            authLoading.classList.remove('visible');
-        });
-    })();
-    </script>
+(() => {
+const URL="https://gftxygomulcotrwslyqi.supabase.co",KEY="sb_publishable_fV9y-ZIAqamDQpoKgZTZJg_qJEnWP0x",REDIRECT="https://lukivislaud.github.io/lol123/",TABLE="game_library_accounts",BUCKET="avatars",EMPTY={toPlay:[],playing:[],completed:[]};
+const el=id=>document.getElementById(id),toggle=el("profileToggle"),menu=el("profileMenu"),control=el("profileControl"),avatar=el("profileAvatarImage"),avatarFallback=el("profileAvatarFallback"),summary=el("profileSummaryAvatarImage"),summaryFallback=el("profileSummaryAvatarFallback"),notice=el("accountSyncNotice"),gate=el("accountGate"),main=document.querySelector(".main-content");
+let client=null,user=null,path=null,refreshTimer=null,saveTimer=null,chain=Promise.resolve(),generation=0,loadingId=null,loading=null,loadedId=null;
+const page=new URL(location.href),query=page.searchParams,hash=new URLSearchParams(location.hash.replace(/^#/,"")),oauthError=query.get("error_description")||hash.get("error_description")||query.get("error")||hash.get("error"),oauthCallback=query.has("code")||hash.has("access_token")||hash.has("error");
+if(oauthCallback&&!oauthError)el("authLoading").classList.add("visible");
+function authError(s){el("profileAuthError").textContent=s||"";el("profileAuthError").classList.toggle("visible",Boolean(s))}
+function syncNotice(s){notice.textContent=s||"";notice.hidden=!s}
+function setPhoto(s){[avatar,summary].forEach(i=>{if(s){i.src=s;i.hidden=false}else{i.removeAttribute("src");i.hidden=true}});avatarFallback.hidden=Boolean(s);summaryFallback.hidden=Boolean(s)}
+function gateMode(load){gate.hidden=false;main.classList.add("account-locked");el("accountGateTitle").textContent=load?"Wczytuję Twoją bibliotekę":"Zaloguj się, aby zobaczyć swoją bibliotekę";el("accountGateText").textContent=load?"Pobieram gry i profil przypisane do konta.":"Gry i zdjęcie profilowe są przypisane do konta i pojawią się po zalogowaniu.";el("accountGateSpinner").hidden=!load;el("accountGateSignIn").hidden=load}
+function showLibrary(){gate.hidden=true;main.classList.remove("account-locked")}
+function norm(x){const a=x&&typeof x==="object"&&!Array.isArray(x)?x:{};return {...a,toPlay:Array.isArray(a.toPlay)?a.toPlay:[],playing:Array.isArray(a.playing)?a.playing:[],completed:Array.isArray(a.completed)?a.completed:[]}}
+function key(x){return "gt_v10_liquid_"+x.id}
+function oldPhotoKey(x){return "gt_v9_profile_avatar_"+x.id}
+function cache(x,g){try{localStorage.setItem(key(x),JSON.stringify(norm(g)))}catch(_){syncNotice("Przeglądarka nie pozwoliła zapisać kopii roboczej biblioteki.")}}
+function readCache(x){try{const s=localStorage.getItem(key(x));return s?norm(JSON.parse(s)):null}catch(_){return null}}
+function readLegacy(){try{const s=localStorage.getItem("gt_v9_liquid");return s?norm(JSON.parse(s)):null}catch(_){return null}}
+function oldPhoto(x){try{const s=localStorage.getItem(oldPhotoKey(x));return s&&s.startsWith("data:image/")?s:null}catch(_){return null}}
+function library(){return norm(window.readAccountLibraryState())}
+function replace(g){window.replaceAccountLibraryState(norm(g))}
+function renderProfile(x){user=x||null;const on=Boolean(user),meta=user&&user.user_metadata?user.user_metadata:{},display=meta.full_name||meta.name||(user&&user.email)||"Konto";toggle.classList.toggle("is-authenticated",on);toggle.setAttribute("aria-label",on?"Profil: "+(user.email||"zalogowano"):"Zaloguj się przez Google");el("profileSignedOut").hidden=on;el("profileSignedIn").hidden=!on;el("profileSignOutButton").hidden=!on;el("profileName").textContent=on?display:"Konto";el("profileEmail").textContent=on?(user.email||"Zalogowano"):"Nie zalogowano";if(!on)setPhoto(null)}
+function closeMenu(){menu.classList.remove("open");toggle.setAttribute("aria-expanded","false")}
+window.toggleProfileMenu=e=>{if(e)e.stopPropagation();const on=!menu.classList.contains("open");menu.classList.toggle("open",on);toggle.setAttribute("aria-expanded",String(on))};
+document.addEventListener("pointerdown",e=>{if(control&&!control.contains(e.target))closeMenu()});document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenu()});
+async function signIn(){authError("");if(!client){authError("Logowanie nie jest teraz dostępne. Sprawdź połączenie z internetem i odśwież stronę.");return}const b=el("googleSignInButton"),label=b.querySelector("span"),old=label.textContent;b.disabled=true;label.textContent="Łączenie z Google…";try{const {error}=await client.auth.signInWithOAuth({provider:"google",options:{redirectTo:REDIRECT,queryParams:{prompt:"select_account"}}});if(error)throw error;label.textContent="Przekierowuję do Google…"}catch(e){authError(e.message||"Nie udało się rozpocząć logowania przez Google.");b.disabled=false;label.textContent=old}}
+el("googleSignInButton").addEventListener("click",signIn);el("accountGateSignIn").addEventListener("click",signIn);
+async function writeRow(x,g,p){const {error}=await client.from(TABLE).upsert({user_id:x.id,library:norm(g),avatar_path:p||null,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error)throw error}
+function enqueue(g,p){if(!client||!user||!window.accountCloudReady)return Promise.resolve();const owner=user,snapshot=norm(g);chain=chain.catch(()=>{}).then(async()=>{if(!user||user.id!==owner.id||!window.accountCloudReady)return;await writeRow(owner,snapshot,p);if(user&&user.id===owner.id)syncNotice("")});return chain}
+window.accountCloudSave=g=>{if(!user||!window.accountCloudReady)return;const snapshot=norm(g);cache(user,snapshot);clearTimeout(saveTimer);saveTimer=setTimeout(()=>enqueue(snapshot,path).catch(e=>{if(user)syncNotice("Nie udało się zsynchronizować biblioteki. Zmiany są zapisane na razie w tej przeglądarce. "+(e.message||""))}),650)};
+async function signedPhoto(x,p){if(!client||!p||!user||user.id!==x.id){setPhoto(null);return}const {data,error}=await client.storage.from(BUCKET).createSignedUrl(p,3600);if(error||!data||!data.signedUrl){setPhoto(null);syncNotice("Biblioteka wczytana, ale nie udało się pobrać avatara.");return}setPhoto(data.signedUrl);clearTimeout(refreshTimer);refreshTimer=setTimeout(()=>{if(user&&user.id===x.id&&path===p)signedPhoto(x,p).catch(()=>{})},50*60*1000)}
+async function makePhoto(blob){const u=URL.createObjectURL(blob);try{const im=new Image();im.src=u;if(im.decode)await im.decode();else await new Promise((ok,no)=>{im.onload=ok;im.onerror=no});const n=512,c=document.createElement("canvas");c.width=n;c.height=n;const x=c.getContext("2d");if(!x)throw Error("Nie można przygotować zdjęcia.");x.fillStyle="#101014";x.fillRect(0,0,n,n);const s=Math.max(n/im.naturalWidth,n/im.naturalHeight),w=im.naturalWidth*s,h=im.naturalHeight*s;x.save();try{x.filter="blur(24px) brightness(.66)"}catch(_){}x.drawImage(im,(n-w)/2,(n-h)/2,w,h);x.restore();const f=Math.min(n/im.naturalWidth,n/im.naturalHeight),iw=im.naturalWidth*f,ih=im.naturalHeight*f;x.imageSmoothingEnabled=true;x.imageSmoothingQuality="high";x.drawImage(im,(n-iw)/2,(n-ih)/2,iw,ih);const webp=await new Promise(r=>c.toBlob(r,"image/webp",.92));if(webp&&webp.type==="image/webp")return webp;const jpg=await new Promise(r=>c.toBlob(r,"image/jpeg",.92));if(!jpg)throw Error("Nie udało się przygotować zdjęcia.");return jpg}finally{URL.revokeObjectURL(u)}}
+async function uploadPhoto(x,blob){if(!user||user.id!==x.id||!window.accountCloudReady)throw Error("Poczekaj, aż biblioteka konta zostanie wczytana.");const ext=blob.type==="image/webp"?"webp":"jpg",rand=crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2),p=x.id+"/"+Date.now()+"-"+rand+"."+ext;const {error}=await client.storage.from(BUCKET).upload(p,blob,{contentType:blob.type,cacheControl:"3600",upsert:false});if(error)throw error;const old=path;path=p;try{await enqueue(library(),p)}catch(e){path=old;await client.storage.from(BUCKET).remove([p]).catch(()=>{});throw e}try{localStorage.removeItem(oldPhotoKey(x))}catch(_){}await signedPhoto(x,p);if(old&&old!==p)client.storage.from(BUCKET).remove([old]).then(({error:e})=>{if(e)console.warn("Nie udało się usunąć starego zdjęcia.",e)})}
+async function migratePhoto(x,data){if(!data||!window.accountCloudReady||path)return;try{const r=await fetch(data),b=await makePhoto(await r.blob());if(user&&user.id===x.id&&window.accountCloudReady)await uploadPhoto(x,b)}catch(_){syncNotice("Biblioteka działa, ale stare zdjęcie nie zostało przeniesione. Możesz wgrać je ponownie.")}}
+async function loadAccount(x,t){window.accountLibraryUserId=x.id;window.accountCloudReady=false;window.replaceAccountLibraryState(EMPTY);syncNotice("");gateMode(true);let old=oldPhoto(x);try{const {data:row,error}=await client.from(TABLE).select("library,avatar_path").eq("user_id",x.id).maybeSingle();if(t!==generation||!user||user.id!==x.id)return;if(error)throw error;if(row){const g=norm(row.library);path=row.avatar_path||null;replace(g);cache(x,g);try{localStorage.removeItem("gt_v9_liquid")}catch(_){}window.accountCloudReady=true;loadedId=x.id;showLibrary();if(path)await signedPhoto(x,path);else if(old){setPhoto(old);migratePhoto(x,old)}else setPhoto(null);return}const g=readCache(x)||readLegacy()||{toPlay:[],playing:[],completed:[]};path=null;replace(g);await writeRow(x,g,null);if(t!==generation||!user||user.id!==x.id)return;cache(x,g);try{localStorage.removeItem("gt_v9_liquid")}catch(_){}window.accountCloudReady=true;loadedId=x.id;showLibrary();if(old){setPhoto(old);migratePhoto(x,old)}else setPhoto(null)}catch(e){if(t!==generation||!user||user.id!==x.id)return;window.accountCloudReady=false;path=null;replace(readCache(x)||{toPlay:[],playing:[],completed:[]});old=oldPhoto(x);setPhoto(old);showLibrary();syncNotice("Nie udało się połączyć z bazą konta. Uruchom skrypt Supabase i odśwież stronę. Zapis działa na razie tylko w tej przeglądarce. "+(e.message||""))}}
+function activate(x){if(loadedId===x.id&&window.accountCloudReady)return;if(loadingId===x.id&&loading)return;generation++;const t=generation;loadingId=x.id;loading=loadAccount(x,t).finally(()=>{if(loadingId===x.id){loadingId=null;loading=null}})}
+function clearAccount(){generation++;loadingId=null;loading=null;loadedId=null;clearTimeout(saveTimer);clearTimeout(refreshTimer);window.accountLibraryUserId=null;window.accountCloudReady=false;path=null;setPhoto(null);syncNotice("");window.replaceAccountLibraryState(EMPTY);gateMode(false);closeMenu()}
+function sessionChanged(s){const next=s&&s.user?s.user:null;if(!next){renderProfile(null);clearAccount();return}const prior=user&&user.id;if(prior&&prior!==next.id)clearAccount();renderProfile(next);activate(next)}
+el("profileSignOutButton").addEventListener("click",async()=>{if(!client)return;authError("");const {error}=await client.auth.signOut();if(error)authError("Nie udało się wylogować: "+error.message);else closeMenu()});
+el("chooseAvatarButton").addEventListener("click",()=>{authError("");if(!user||!window.accountCloudReady){authError("Poczekaj, aż biblioteka konta zostanie wczytana.");return}el("profileAvatarInput").value="";el("profileAvatarInput").click()});
+el("removeAvatarButton").addEventListener("click",async()=>{if(!user||!window.accountCloudReady)return;const x=user,old=path;authError("");path=null;try{await enqueue(library(),null);setPhoto(null);if(old){const {error}=await client.storage.from(BUCKET).remove([old]);if(error)console.warn("Nie udało się usunąć zdjęcia.",error)}}catch(e){path=old;authError("Nie udało się usunąć zdjęcia: "+(e.message||"spróbuj ponownie."))}});
+el("profileAvatarInput").addEventListener("change",async e=>{const f=e.target.files&&e.target.files[0];if(!f||!user)return;if(!/^image\/(jpeg|png|webp)$/i.test(f.type)){authError("Wybierz zdjęcie JPG, PNG lub WebP.");return}if(f.size>20*1024*1024){authError("Wybierz zdjęcie mniejsze niż 20 MB.");return}const x=user;try{authError("");await uploadPhoto(x,await makePhoto(f))}catch(err){authError("Nie udało się zapisać zdjęcia: "+(err.message||"spróbuj innego pliku."))}finally{el("profileAvatarInput").value=""}});
+if(!window.supabase||typeof window.supabase.createClient!=="function"){authError("Logowanie nie wczytało się. Sprawdź internet i odśwież stronę.");renderProfile(null);gateMode(false);return}
+client=window.supabase.createClient(URL,KEY,{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true,flowType:"pkce"}});window.libraryAuthClient=client;
+client.auth.onAuthStateChange((event,s)=>{setTimeout(()=>sessionChanged(s),0);if(event==="SIGNED_IN"&&s&&s.user&&!oauthCallback&&typeof window.showUndoToast==="function"){const g=s.user.user_metadata&&(s.user.user_metadata.given_name||s.user.user_metadata.name);window.showUndoToast(g?"Zalogowano. Witaj, "+g+"!":"Zalogowano przez Google.")}});
+client.auth.getSession().then(({data,error})=>{const s=data&&data.session?data.session:null;sessionChanged(s);if(error)authError("Nie udało się odczytać sesji: "+error.message);if(oauthError)authError(oauthError);if(oauthCallback){const clean=new URL(location.href);["code","state","error","error_code","error_description"].forEach(k=>clean.searchParams.delete(k));const h=new URLSearchParams(clean.hash.replace(/^#/,""));["access_token","refresh_token","token_type","expires_in","expires_at","provider_token","provider_refresh_token","state","error","error_description","error_code"].forEach(k=>h.delete(k));clean.hash=h.toString()?"#"+h.toString():"";history.replaceState({},document.title,clean.pathname+clean.search+clean.hash);if(!oauthError&&s&&typeof window.showUndoToast==="function"){const g=s.user.user_metadata&&(s.user.user_metadata.given_name||s.user.user_metadata.name);window.showUndoToast(g?"Zalogowano. Witaj, "+g+"!":"Zalogowano przez Google.")}setTimeout(()=>el("authLoading").classList.remove("visible"),950)}}).catch(e=>{renderProfile(null);clearAccount();authError("Nie udało się sprawdzić logowania: "+(e.message||"spróbuj ponownie."));el("authLoading").classList.remove("visible")});
+})();
+        </script>
 </body>
 </html>
 
